@@ -6,7 +6,7 @@ export default function BooksLayouts() {
     <>
       <ul>
         <li>
-          <Link replace='/books/1'>Book 1</Link>
+          <Link to='/books/1'>Book 1</Link>
         </li>
         <li>
           <Link to='/books/2'>Book 2</Link>

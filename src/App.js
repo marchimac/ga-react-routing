@@ -1,4 +1,4 @@
-import { Route, Routes, NavLink } from 'react-router-dom'
+import { Route, Routes, Link, NavLink, useLocation, useRoutes } from 'react-router-dom'
 import Home from './pages/Home'
 import BookList from './pages/BookList'
 import Book from './pages/Book'
@@ -8,6 +8,38 @@ import BooksLayouts from './pages/layouts/BooksLayouts'
 import './css/App.css'
 
 function App() {
+  const location = useLocation();
+  console.log(location);
+
+  let element = useRoutes([
+    {
+      path: '/',
+      element: <Home />
+    },
+    {
+      path: '/books',
+      element: <BooksLayouts />,
+      children: [
+        {
+          index: true,
+          element: <BookList />
+        },
+        {
+          path: ':id',
+          element: <Book />
+        },
+        {
+          path: 'new',
+          element: <NewBook />
+        }
+      ]
+    },
+    {
+      path: '*',
+      element: <NotFound />
+    }
+  ])
+
   return (
     <>
       <nav>
@@ -18,11 +50,12 @@ function App() {
             }}>Home</NavLink>
           </li>
           <li>
-            <NavLink to='/books'>Books</NavLink>
+            <NavLink to='/books' state='Hola Mundo!!' >Books</NavLink>
           </li>
         </ul>
       </nav>
-      <Routes>
+      {element}
+      {/* <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/books' element={ <BooksLayouts />}>
           <Route index element={ <BookList /> } />
@@ -30,7 +63,7 @@ function App() {
           <Route path='new' element={<NewBook />} />
         </Route>
         <Route path='*' element={<NotFound />} />
-      </Routes>
+      </Routes> */}
     </>
   );
 }
